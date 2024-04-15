@@ -1,0 +1,6 @@
+<h2>Edit Product</h2>
+<form action="/products/<%= product.id %>?_method=PUT" method="post">
+  <%- include('../partials/productForm', {product: product}) %>
+  <button type="submit">Edit</button>
+  <a href="/products">Cancel</a>
+</form>

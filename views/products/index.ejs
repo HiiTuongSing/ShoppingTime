@@ -1,2 +1,10 @@
 <h2>Products</h2>
 <a href="/products/new">New</a>
+<% products.forEach(product => { %>
+<h2><%= product.name %></h2>
+<p>RM <%= product.price %></p>
+<p>Stock: <%= product.stock %> pcs</p>
+<a href="/products/<%= product.id %>">Show</a>
+<a href="/products/<%= product.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', {url: `/products/${product.id}`}) %>
+<%})%>
