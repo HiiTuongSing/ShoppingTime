@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
+const imageMimeType = ["image/jpeg", "image/png", "image/gif"];
 
 router.get("/", async (req, res) => {
   try {
@@ -28,6 +29,7 @@ router.post("/", async (req, res) => {
       price: req.body.price,
       stock: req.body.stock,
     });
+    saveCover(product, req.body.image);
     await product.save();
     const products = await Product.find({});
     res.render("products/index", { products: products });
@@ -35,6 +37,15 @@ router.post("/", async (req, res) => {
     console.error(err);
   }
 });
+
+function saveCover(product, encodedImage) {
+  if (encodedImage == null) return;
+  const image = JSON.parse(encodedImage);
+  if (image != null && imageMimeType.includes(image.type)) {
+    product.image = new Buffer.from(image.data, "base64");
+    product.imageType = image.type;
+  }
+}
 
 //delete product
 router.delete("/:id", async (req, res) => {

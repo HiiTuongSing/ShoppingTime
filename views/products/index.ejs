@@ -1,6 +1,7 @@
 <h2>Products</h2>
 <a href="/products/new">New</a>
 <% products.forEach(product => { %>
+<img src="<%= product.imagePath %>" />
 <h2><%= product.name %></h2>
 <p>RM <%= product.price %></p>
 <p>Stock: <%= product.stock %> pcs</p>

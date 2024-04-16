@@ -13,6 +13,22 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  image: {
+    type: Buffer,
+    required: true,
+  },
+  imageType: {
+    type: String,
+    requried: true,
+  },
+});
+
+productSchema.virtual("imagePath").get(function () {
+  if (this.image != null && this.imageType != null) {
+    return `data:${this.imageType};charset=utf-8;base64,${this.image.toString(
+      "base64"
+    )}`;
+  }
 });
 
 module.exports = mongoose.model("Product", productSchema);

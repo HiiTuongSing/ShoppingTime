@@ -8,6 +8,22 @@ const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
+const FilePond = require("filepond");
+const FilePondPluginImagePreview = require("filepond-plugin-image-preview");
+const FilePondPluginFileEncode = require("filepond-plugin-file-encode");
+const FilePondPluginImageResize = require("filepond-plugin-image-resize");
+
+const pond = FilePond.create({
+  multiple: true,
+  name: "filepond",
+});
+
+FilePond.registerPlugin(
+  FilePondPluginImagePreview,
+  FilePondPluginFileEncode,
+  FilePondPluginImageResize
+);
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
