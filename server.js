@@ -8,22 +8,6 @@ const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
-const FilePond = require("filepond");
-const FilePondPluginImagePreview = require("filepond-plugin-image-preview");
-const FilePondPluginFileEncode = require("filepond-plugin-file-encode");
-const FilePondPluginImageResize = require("filepond-plugin-image-resize");
-
-const pond = FilePond.create({
-  multiple: true,
-  name: "filepond",
-});
-
-FilePond.registerPlugin(
-  FilePondPluginImagePreview,
-  FilePondPluginFileEncode,
-  FilePondPluginImageResize
-);
-
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
@@ -34,8 +18,10 @@ app.use(methodOverride("_method"));
 
 const indexRouter = require("./routes/index");
 const productsRouter = require("./routes/products");
+const cartsRouter = require("./routes/cart");
 app.use("/", indexRouter);
 app.use("/products", productsRouter);
+app.use("/cart", cartsRouter);
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL, {});

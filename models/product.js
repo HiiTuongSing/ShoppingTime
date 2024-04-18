@@ -21,6 +21,10 @@ const productSchema = mongoose.Schema({
     type: String,
     requried: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
 });
 
 productSchema.virtual("imagePath").get(function () {

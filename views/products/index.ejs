@@ -5,6 +5,7 @@
 <h2><%= product.name %></h2>
 <p>RM <%= product.price %></p>
 <p>Stock: <%= product.stock %> pcs</p>
+<p>Description: <%= product.description %></p>
 <a href="/products/<%= product.id %>">Show</a>
 <a href="/products/<%= product.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm', {url: `/products/${product.id}`}) %>
