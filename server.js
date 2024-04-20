@@ -17,9 +17,11 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 app.use(methodOverride("_method"));
 
 const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
 const cartsRouter = require("./routes/cart");
 app.use("/", indexRouter);
+app.use("/", authRouter);
 app.use("/products", productsRouter);
 app.use("/cart", cartsRouter);
 
