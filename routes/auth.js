@@ -39,11 +39,19 @@ const authenticateUser = async (email, password, done) => {
 passport.use(new LocalStrategy({ usernameField: "email" }, authenticateUser));
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) => {
-  return done(null, getUserById(id));
+  return done(null, id);
 });
 
-router.get("/", checkAuthenticated, (req, res) => {
-  res.render("index.ejs", { name: req.user.name });
+router.get("/", async (req, res) => {
+  if (req.isAuthenticated()) {
+    // User is authenticated, proceed to dashboard
+    const user = await User.findById(req.user);
+
+    res.render("index", { user: user });
+  } else {
+    // User is not authenticated, redirect to login
+    res.redirect("/login");
+  }
 });
 
 router.get("/login", checkNotAuthenticated, (req, res) => {
@@ -75,7 +83,8 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
     await user.save();
 
     res.redirect("/login");
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.redirect("/register");
   }
 });

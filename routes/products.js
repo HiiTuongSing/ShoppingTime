@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
 const imageMimeType = ["image/jpeg", "image/png", "image/gif"];
+const User = require("../models/user");
 
 router.get("/", async (req, res) => {
   try {
@@ -91,4 +92,64 @@ router.put("/:id", async (req, res) => {
     console.error(err);
   }
 });
+
+//add to cart
+router.get("/:id/add", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    res.render("products/addToCart", {
+      product: product,
+    });
+  } catch {
+    res.redirect("/");
+  }
+});
+
+router.put("/:id/add", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    const user = await User.findById(req.user);
+
+    //Make changes to product database
+    const quantity = req.body.quantity;
+    if (product.stock >= quantity) {
+      product.stock -= quantity;
+      await product.save();
+    } else {
+      console.log("Not enough stock");
+    }
+
+    //make changes to cart
+
+    if (user.cart.some((item) => item.productId.toString() === req.params.id)) {
+      let updatedQuantity =
+        parseInt(req.body.quantity) +
+        parseInt(
+          user.cart.find((item) => item.productId.toString() == req.params.id)
+            .productQuantity
+        );
+
+      await User.findByIdAndUpdate(
+        req.user,
+        { $set: { "cart.$[elem].productQuantity": parseInt(updatedQuantity) } },
+        { arrayFilters: [{ "elem.productId": req.params.id }], new: true }
+      );
+    } else {
+      user.cart.push({
+        productId: req.params.id,
+        productName: product.name,
+        productQuantity: quantity,
+      });
+      await user.save();
+    }
+
+    const products = await Product.find({});
+    res.render("products/index", { products: products });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/");
+  }
+});
+
 module.exports = router;

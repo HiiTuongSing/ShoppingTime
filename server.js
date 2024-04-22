@@ -20,10 +20,12 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
 const cartsRouter = require("./routes/cart");
+const usersRouter = require("./routes/user");
 app.use("/", indexRouter);
 app.use("/", authRouter);
 app.use("/products", productsRouter);
 app.use("/cart", cartsRouter);
+app.use("/users", usersRouter);
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL, {});

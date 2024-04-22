@@ -1,0 +1,9 @@
+<h2>Developer Only: User</h2>
+<% users.forEach(user => { %>
+<h2><%= user.name %></h2>
+<p>Id: <%= user.id %></p>
+<p>Email: <%= user.email %></p>
+<p>Cart Id: <%= user.cart %></p>
+<%- include('../partials/deleteForm', {url: `/users/${user.id}`}) %> <br />
+<%})%>
+<p><%= id %></p>

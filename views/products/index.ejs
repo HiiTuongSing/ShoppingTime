@@ -1,7 +1,8 @@
 <h2>Products</h2>
-<a href="/products/new">New</a>
+<a href="/products/new">New Product</a>
+<br />
 <% products.forEach(product => { %>
-<img src="<%= product.imagePath %>" />
+<img width="100" height="150" src="<%= product.imagePath %>" />
 <h2><%= product.name %></h2>
 <p>RM <%= product.price %></p>
 <p>Stock: <%= product.stock %> pcs</p>
@@ -9,4 +10,5 @@
 <a href="/products/<%= product.id %>">Show</a>
 <a href="/products/<%= product.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm', {url: `/products/${product.id}`}) %>
+<a href="/products/<%= product.id %>/add">Add to Cart</a>
 <%})%>
