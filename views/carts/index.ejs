@@ -6,4 +6,5 @@
 <p><%= product.productName %></p>
 <p><%= product.productQuantity %></p>
 <%- include('../partials/deleteForm', {url: `/cart/${product.id}`}) %> <br />
+<a href="/cart/<%= product.productId %>/edit">Edit Quantity</a>
 <% }) %>

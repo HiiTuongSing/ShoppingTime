@@ -1,0 +1,7 @@
+<h2>Edit quantity of <%= product.name %></h2>
+<form action="/cart/<%= product.id %>?_method=PUT" method="post">
+  <label for="quantityToAdd">Quantity to add?</label>
+  <input id="quantityToAdd" type="number" name="quantity" />
+  <button type="submit">Add to Cart</button>
+  <a href="/cart">Cancel</a>
+</form>
