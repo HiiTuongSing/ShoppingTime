@@ -1,10 +1,14 @@
 <h2>Cart</h2>
-
-<% userCart.forEach(product => { %>
-<p><%= product.id %></p>
-<p><%= product.productId %></p>
+<% let total = 0 %> <% userCart.forEach(product => { %>
+<br />
+<% total += product.totalPrice %>
 <p><%= product.productName %></p>
-<p><%= product.productQuantity %></p>
+<p>Quantity: <%= product.productQuantity %></p>
+<p>Price: RM <%= product.price %></p>
+<p>Total Price: RM <%= product.totalPrice %></p>
 <%- include('../partials/deleteForm', {url: `/cart/${product.id}`}) %> <br />
 <a href="/cart/<%= product.productId %>/edit">Edit Quantity</a>
+<br />
 <% }) %>
+<br />
+<h3>Grand Total: <%= total %></h3>

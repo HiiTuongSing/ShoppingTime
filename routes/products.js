@@ -129,17 +129,25 @@ router.put("/:id/add", async (req, res) => {
           user.cart.find((item) => item.productId.toString() == req.params.id)
             .productQuantity
         );
-
+      let totalPrice = parseInt(product.price * updatedQuantity);
       await User.findByIdAndUpdate(
         req.user,
-        { $set: { "cart.$[elem].productQuantity": parseInt(updatedQuantity) } },
+        {
+          $set: {
+            "cart.$[elem].productQuantity": parseInt(updatedQuantity),
+            "cart.$[elem].totalPrice": parseInt(totalPrice),
+          },
+        },
         { arrayFilters: [{ "elem.productId": req.params.id }], new: true }
       );
     } else {
+      let totalPrice = parseInt(product.price * quantity);
       user.cart.push({
         productId: req.params.id,
         productName: product.name,
         productQuantity: quantity,
+        price: product.price,
+        totalPrice: totalPrice,
       });
       await user.save();
     }
